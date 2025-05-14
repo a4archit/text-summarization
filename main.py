@@ -1,4 +1,6 @@
 from textt5 import TEXTT5
+from time import sleep 
+
 import streamlit as st
 
 
@@ -32,20 +34,22 @@ details = """#### About the Model
 st.sidebar.title("Menu")
 st.sidebar.divider()
 
-max_lengh = st.sidebar.slider(
+st.sidebar.slider(
     "Set minimum word limit",
-    min_value=20,
-    max_value=200,
-    step = 10,
-    value=50
+    min_value=10,
+    max_value=50,
+    step = 5,
+    value=20,
+    key = "min_length_key"
 )
 
-max_lengh = st.sidebar.slider(
+st.sidebar.slider(
     "Set maximum word limit",
-    min_value=20,
+    min_value=50,
     max_value=200,
     step = 10,
-    value=50
+    value=70,
+    key = "max_length_key"
 )
 
 st.sidebar.markdown(details)
@@ -56,6 +60,12 @@ st.sidebar.write("[Github](https://www.github.com/a4archit)")
 st.sidebar.write("[LinkedIn](https://www.linkedin.com/in/archit-tyagi-191323296)")
 
 
+
+
+
+# setting minimum and maximum values (summary limits)
+model.set_min_length(st.session_state.min_length_key)
+model.set_max_length(st.session_state.max_length_key)
 
 
 # declaring functions
@@ -74,7 +84,7 @@ col1, col2 = st.columns([1,1])
 with col1:
     # adding clear button
     clear_btn = st.button(
-        label = "clear",
+        label = "Clear",
         key = "clear_btn_key",
         use_container_width = True,
         on_click=clear_text,
@@ -96,20 +106,22 @@ if st.session_state.summarize_btn_key:
     content = content.strip()
     if not content:
         st.write(":red[Please provide some text first...]")
+        sleep(0.5)
         st.rerun()
 
     words_list = content.split(' ')
     if len(words_list) < 20:
-        st.write(":red[Please provide some more text...]")
+        st.write(":red[Provided text is too much short, increase the text some little more.]")
+        sleep(1)
         st.rerun()
 
 
     summarized_text = model.summarize_text(content)
 
+    st.subheader("Summary: ")
     st.write(summarized_text.capitalize())
 
 
 
 
-# model.summarize_text(article, display=True)
 
