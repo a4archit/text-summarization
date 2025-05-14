@@ -19,7 +19,7 @@ st.set_page_config("Text Summarization | T5-small", page_icon="📝")
 
 # page layout
 st.title("Text Summarization")
-
+st.write("This model able to summarize long articles, paragraphs or news, which will be usefull in future.")
 
 
 
