@@ -1,3 +1,4 @@
 SentencePiece
 tensorflow
 transformers
+torch
